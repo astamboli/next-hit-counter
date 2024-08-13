@@ -1,11 +1,8 @@
-import React from 'react';
+import React from "react";
 
-import {
-  readFile,
-  writeFile,
-} from '../helpers/file-helpers';
+import { readFile, writeFile } from "../helpers/file-helpers";
 
-const DATABASE_PATH = '/src/database.json';
+const DATABASE_PATH = "/src/database.json";
 
 /*
 `readFile` takes 1 argument:
@@ -24,10 +21,23 @@ writeFile(
 */
 
 function Home() {
+  const [isCensored, setIsCensored] = React.useState(true);
+  const { hits } = JSON.parse(readFile(DATABASE_PATH));
+  hits++;
+  writeFile(JSON.stringify({ hits }));
   return (
     <main>
       <h1>Welcome!</h1>
-      <p>You are visitor number X.</p>
+      <p>
+        You are visitor number{" "}
+        <button
+          onClick={() => setIsCensored(!isCensored)}
+          className={isCensored ? "censored" : null}
+        >
+          {hits}
+        </button>
+        .
+      </p>
     </main>
   );
 }
